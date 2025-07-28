@@ -210,6 +210,107 @@ Or simply:
   - `loc` = label-based indexing
 - Boolean filtering avoids slow loops and accelerates your code.
 
+# 3. Missing Data 
+
+> Handling missing (null/NaN) values is a core data cleaning task in real-world data analysis.
+> Pandas provides powerful, easy-to-use tools to detect, remove, or fill missing data.
+
+---
+
+## Introduction
+
+- Real datasets often have missing or corrupt values (represented as `NaN`, `None`, or `NULL`).
+- Pandas treats missing data as `NaN` (Not a Number), which is a float type.
+
+---
+
+## Detecting Missing Data
+
+- **Detect missing values in DataFrame or Series:**
+
+      df.isnull()         # Returns DataFrame of True/False for each cell
+      df.notnull()        # Opposite of isnull()
+
+- **Count missing values per column:**
+
+      df.isnull().sum()
+
+---
+
+## Removing Missing Data
+
+- **Drop rows with any missing values:**
+
+      df_clean = df.dropna()
+
+- **Drop columns with any missing values:**
+
+      df_clean = df.dropna(axis=1)
+
+- **Drop rows only if all values are missing:**
+
+      df_clean = df.dropna(how='all')
+
+- **Drop rows if too many values are missing (threshold):**
+
+      df_clean = df.dropna(thresh=2)   # Keep rows with at least 2 non-NaN
+
+- **Option to modify DataFrame in place:**
+
+      df.dropna(inplace=True)
+
+---
+
+## Filling (Imputing) Missing Data
+
+- **Fill missing values with a constant:**
+
+      df_filled = df.fillna(0)         # Replace all NaNs with 0
+
+- **Fill using forward-fill (propagate last valid):**
+
+      df_ffill = df.fillna(method='ffill')   # Copy down previous value
+
+- **Fill using backward-fill:**
+
+      df_bfill = df.fillna(method='bfill')   # Copy up next value
+
+- **Fill with the mean, median, or another computation:**
+
+      df['col'] = df['col'].fillna(df['col'].mean())
+      df['col'] = df['col'].fillna(df['col'].median())
+
+- **Update in place:**
+
+      df['col'].fillna(0, inplace=True)
+
+---
+
+## Replacing Specific Values
+
+- Replace certain values (e.g., -99 or 'unknown') with NaN before cleaning:
+
+      import numpy as np
+      df.replace(-99, np.nan, inplace=True)
+      df.replace('unknown', np.nan, inplace=True)
+
+---
+
+## Checking the Effect
+
+- After handling missing data, always verify:
+
+      df.info()
+      df.isnull().sum()    # Confirm all missing values handled
+
+---
+
+## Pro Tips
+
+- Always inspect data with `df.head()` and `df.info()` before and after cleaning.
+- For most real analyses, fill strategy depends on context: only use mean/median etc. if justified.
+- Dropping missing data can lead to data loss; document your workflow and choices.
+
 ---
 
 
