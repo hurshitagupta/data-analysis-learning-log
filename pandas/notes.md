@@ -313,6 +313,78 @@ Or simply:
 
 ---
 
+# 4. Checking and Analyzing Unique Values
+
+- **Get unique values of a column or Series:**
+
+      df['column'].unique()
+
+- **Count unique values in a column or Series:**
+
+      df['column'].nunique()
+
+- **Get counts of each unique value (frequency):**
+
+      df['column'].value_counts()
+
+- **Example - check unique values to detect wrong/unexpected data:**
+
+      unique_sex_values = df['sex'].unique()
+      print("Unique values in 'sex' column:", unique_sex_values)
+
+---
+
+## ⚠️ Why Checking for Unique and Duplicate Values Matters
+
+- Duplicate rows can skew analyses and models; removing or handling them ensures clean datasets.
+- Unexpected unique values in categorical columns (e.g., typos like "Femal" instead of "Female") highlight data quality issues that need correction.
+- Use `.value_counts()` to spot such irregularities by examining frequencies visually.
+
+---
+
+# 5. Handling duplicates
+
+---
+
+## Detecting and Handling Duplicate Rows
+
+- **Finding duplicate rows in a DataFrame:**
+
+      df.duplicated()  
+      # Returns a boolean Series, True for duplicated rows after the first appearance
+
+- **Count the total number of duplicate rows:**
+
+      df.duplicated().sum()
+
+- **View duplicate rows themselves:**
+
+      df[df.duplicated()]
+
+- **Drop duplicate rows (keep first occurrence by default):**
+
+      df_no_duplicates = df.drop_duplicates()
+
+- **Drop duplicates in place:**
+
+      df.drop_duplicates(inplace=True)
+
+- **Drop duplicates based on specific columns:**
+
+      df.drop_duplicates(subset=['column1', 'column2'], inplace=True)
+
+---
+
+
+## 👨‍💻 Practical Tips
+
+- Always check duplicates early after loading the data to avoid surprises.
+- Use subset parameter in `drop_duplicates()` to focus on specific columns if natural duplicates exist in some fields.
+- Use `.unique()` and `.value_counts()` frequently to validate category columns and identify anomalies.
+
+---
+
+
 
 
 
